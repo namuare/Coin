@@ -16,3 +16,11 @@ dependencies {
     implementation(kotlin("stdlib"))
     compileOnly("com.destroystokyo.paper", "paper-api", "1.16.4-R0.1-SNAPSHOT")
 }
+
+tasks.build {
+    dependsOn(tasks.shadowJar)
+}
+
+artifacts {
+    archives(tasks.build)
+}
