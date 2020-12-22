@@ -8,7 +8,6 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
-    maven("https://jitpack.io/")
     maven("https://papermc.io/repo/repository/maven-public/")
 }
 
@@ -19,6 +18,9 @@ dependencies {
 
 tasks.build {
     dependsOn(tasks.shadowJar)
+}
+
+tasks.test {
 }
 
 artifacts {
