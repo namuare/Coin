@@ -16,13 +16,10 @@ dependencies {
     compileOnly("com.destroystokyo.paper", "paper-api", "1.16.4-R0.1-SNAPSHOT")
 }
 
-tasks.build {
-    dependsOn(tasks.shadowJar)
-}
-
-tasks.test {
+tasks.shadowJar {
+    this.archiveName ="$baseName-$version.$extension"
 }
 
 artifacts {
-    archives(tasks.build)
+    archives(tasks.shadowJar)
 }
