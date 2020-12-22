@@ -1,0 +1,48 @@
+name: EconomySystem
+author: hwangseonu
+version: 1.0-SNAPSHOT
+main: me.mocha.economy.Economy
+api-version: "1.16"
+
+commands:
+  mymoney:
+    permission: economy.command.mymoney
+    description: 자신의 돈을 확인합니다.
+    usage: /mymoney
+    aliases: ["내돈"]
+  cash:
+    permission: economy.command.cash
+    description: 자신의 돈을 현금화합니다.
+    usage: /cash <amount>
+    aliases: ["현금"]
+  givemoney:
+    permission: economy.command.givemoney
+    description: 플레이어에게 돈을 줍니다.
+    usage: /givemoney <player> <amount>
+  setmoney:
+    permission: economy.command.setmoney
+    description: 플레이어에게 돈을 설정합니다.
+    usage: /setmoney <player> <amount>
+
+
+permissions:
+  economy:
+    default: op
+    description: Allows players to control economy system.
+    children:
+      economy.command:
+        default: op
+        description: Allows players to use economy command.
+        children:
+          economy.command.mymoney:
+            default: true
+            description: Allows players to see their money.
+          economy.command.cash:
+            default: true
+            description: Allows players to make cash.
+          economy.command.givemoney:
+            default: op
+            description: Allows players to give money.
+          economy.command.setmoney:
+            default: op
+            description: Allows players to set money.
