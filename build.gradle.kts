@@ -8,20 +8,11 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    mavenLocal()
     maven("https://papermc.io/repo/repository/maven-public/")
 }
 
 dependencies {
     implementation(kotlin("stdlib"))
     compileOnly("com.destroystokyo.paper", "paper-api", "1.16.4-R0.1-SNAPSHOT")
-}
-
-tasks {
-    shadowJar {
-
-    }
-}
-
-artifacts {
-    archives(tasks.shadowJar)
 }
