@@ -35,14 +35,14 @@ class YamlProvider : Provider {
         }
     }
 
-    override fun setMoney(player: Player, money: Int) {
-        if (money < 0) {
+    override fun setMoney(player: Player, amount: Int) {
+        if (amount < 0) {
             throw IllegalArgumentException("money must greater than zero")
         }
 
         if (hasAccount(player)) {
             val uid = player.uniqueId.toString()
-            this.money[uid] = if (money < 0) 0 else money
+            this.money[uid] = if (amount < 0) 0 else amount
             save()
         } else {
             throw NoAccountException(player)

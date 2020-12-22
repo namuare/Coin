@@ -3,8 +3,11 @@ package me.mocha.economy.event.money
 import me.mocha.economy.event.EconomyEvent
 import org.bukkit.entity.Player
 
-open class ChangeMoneyEvent(
+abstract class ChangeMoneyEvent(
     val player: Player,
-    val amount: Int
+    var amount: Int,
 ) : EconomyEvent() {
+
+    abstract fun getResult(): Int
+
 }
