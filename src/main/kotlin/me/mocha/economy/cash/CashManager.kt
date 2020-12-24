@@ -10,10 +10,9 @@ import java.util.*
 
 object CashManager {
 
+    @Throws(IllegalArgumentException::class)
     fun publish(amount: Int): ItemStack {
-        if (amount <= 0) {
-            throw IllegalArgumentException("0원 이하의 수표를 발급할 수 없습니다.")
-        }
+        if (amount <= 0) throw IllegalArgumentException(plugin.getMessage("errors.zeromoney"))
 
         return ItemStack(Material.PAPER, 1).apply {
             itemMeta = itemMeta.apply {

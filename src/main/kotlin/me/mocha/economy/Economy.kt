@@ -1,9 +1,6 @@
 package me.mocha.economy
 
-import me.mocha.economy.command.CashCommand
-import me.mocha.economy.command.GiveMoneyCommand
-import me.mocha.economy.command.GiveMoneyTabCompleter
-import me.mocha.economy.command.MyMoneyCommand
+import me.mocha.economy.command.*
 import me.mocha.economy.provider.YamlProvider
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -34,12 +31,16 @@ class Economy : JavaPlugin() {
             it.setExecutor(GiveMoneyCommand())
             it.tabCompleter = GiveMoneyTabCompleter()
         }
+        getCommand("setmoney")?.let {
+            it.setExecutor(SetMoneyCommand())
+            it.tabCompleter = SetMoneyTabCompleter()
+        }
     }
 
-    fun getPrefix() = config.getString("messages.prefix")
+    fun prefix() = config.getString("messages.prefix") ?: "[Economy]"
 
     fun getMessage(path: String, vararg replace: Pair<String, Any>): String {
-        val prefix = getPrefix()
+        val prefix = prefix()
         var message = config.getString(if (path.startsWith("messages.")) path else "messages.${path}") ?: ""
 
         replace.forEach { message = message.replace("%${it.first}%", it.second.toString()) }
