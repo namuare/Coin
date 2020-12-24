@@ -42,8 +42,11 @@ object CashManager {
         return false
     }
 
-    fun getAmount(item: ItemStack): Int {
-        return if (isCash(item)) item.itemMeta.displayName.removeSuffix(EconomyManager.unit()).toInt() else 0
+    fun getMoney(item: ItemStack): Int {
+        return if (isCash(item)) {
+            val money = item.itemMeta.displayName.removeSuffix(EconomyManager.unit()).toInt()
+            money * item.amount
+        } else 0
     }
 
 }

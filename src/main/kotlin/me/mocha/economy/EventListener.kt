@@ -23,7 +23,7 @@ object EventListener : Listener {
         if (CashManager.isCash(player.inventory.itemInMainHand)) {
             val item = player.inventory.itemInMainHand
             player.inventory.removeItem(item)
-            EconomyManager.addMoney(player, CashManager.getAmount(item))
+            EconomyManager.addMoney(player, CashManager.getMoney(item))
             event.isCancelled = true
         }
     }

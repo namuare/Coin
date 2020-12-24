@@ -15,15 +15,18 @@ commands:
     description: 자신의 돈을 현금화합니다.
     usage: /cash <amount>
     aliases: ["현금"]
-  givemoney:
-    permission: economy.command.givemoney
-    description: 플레이어에게 돈을 줍니다.
-    usage: /givemoney <player> <amount>
   setmoney:
     permission: economy.command.setmoney
     description: 플레이어에게 돈을 설정합니다.
     usage: /setmoney <player> <amount>
-
+  givemoney:
+    permission: economy.command.givemoney
+    description: 플레이어에게 돈을 줍니다.
+    usage: /givemoney <player> <amount>
+  takemoney:
+    permission: economy.command.takemoney
+    description: 플레이어의 돈을 수거합니다.
+    usage: /takemoney <player> <amount>
 
 permissions:
   economy:
@@ -40,9 +43,12 @@ permissions:
           economy.command.cash:
             default: true
             description: Allows players to make cash.
-          economy.command.givemoney:
-            default: op
-            description: Allows players to give money.
           economy.command.setmoney:
             default: op
-            description: Allows players to set money.
+            description: Allows players to set money of other player.
+          economy.command.givemoney:
+            default: op
+            description: Allows players to give money of other player.
+          economy.command.takemoney:
+            default: op
+            description: Allows players to take money of other player.

@@ -5,18 +5,8 @@ import me.mocha.economy.plugin
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
-import org.bukkit.command.TabCompleter
 import java.lang.Exception
 import java.lang.NumberFormatException
-
-class SetMoneyTabCompleter : TabCompleter {
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
-        return when (args.size) {
-            1 -> plugin.server.onlinePlayers.map { it.name }.filter { it.startsWith(args[0]) }.toMutableList()
-            else -> mutableListOf()
-        }
-    }
-}
 
 class SetMoneyCommand : CommandExecutor {
 

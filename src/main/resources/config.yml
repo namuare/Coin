@@ -3,8 +3,9 @@ default: 1000
 messages:
   prefix: "[Economy]"
   mymoney: "나의 돈: %money%%unit%"
-  givemoney: "%target%에게 %amount%%unit%만큼의 돈을 지급했습니다."
   setmoney: "%target%의 돈을 %amount%%unit%으로 세팅했습니다."
+  givemoney: "%target%에게 %amount%%unit%만큼의 돈을 지급했습니다."
+  takemoney: "%target%에게서 %amount%%unit%만큼의 돈을 수거했습니다."
 
   errors:
     unknown: "예상치못한 오류가 발생하였습니다."

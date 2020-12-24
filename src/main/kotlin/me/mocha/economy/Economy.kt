@@ -27,14 +27,9 @@ class Economy : JavaPlugin() {
     private fun registerCommands() {
         getCommand("mymoney")?.setExecutor(MyMoneyCommand())
         getCommand("cash")?.setExecutor(CashCommand())
-        getCommand("givemoney")?.let {
-            it.setExecutor(GiveMoneyCommand())
-            it.tabCompleter = GiveMoneyTabCompleter()
-        }
-        getCommand("setmoney")?.let {
-            it.setExecutor(SetMoneyCommand())
-            it.tabCompleter = SetMoneyTabCompleter()
-        }
+        getCommand("givemoney")?.setExecutor(GiveMoneyCommand())
+        getCommand("setmoney")?.setExecutor(SetMoneyCommand())
+        getCommand("takemoney")?.setExecutor(TakeMoneyCommand())
     }
 
     fun prefix() = config.getString("messages.prefix") ?: "[Economy]"
