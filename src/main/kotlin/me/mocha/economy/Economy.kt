@@ -26,9 +26,10 @@ class Economy : JavaPlugin() {
 
     private fun registerCommands() {
         getCommand("mymoney")?.setExecutor(MyMoneyCommand())
+        getCommand("seemoney")?.setExecutor(SeeMoneyCommand())
         getCommand("cash")?.setExecutor(CashCommand())
-        getCommand("givemoney")?.setExecutor(GiveMoneyCommand())
         getCommand("setmoney")?.setExecutor(SetMoneyCommand())
+        getCommand("givemoney")?.setExecutor(GiveMoneyCommand())
         getCommand("takemoney")?.setExecutor(TakeMoneyCommand())
     }
 

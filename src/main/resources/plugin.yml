@@ -10,6 +10,10 @@ commands:
     description: 자신의 돈을 확인합니다.
     usage: /mymoney
     aliases: ["내돈"]
+  seemoney:
+    permission: economy.command.seemoney
+    description: 플레이어의 돈을 확인합니다.
+    usage: /takemoney <player>
   cash:
     permission: economy.command.cash
     description: 자신의 돈을 현금화합니다.
@@ -40,6 +44,9 @@ permissions:
           economy.command.mymoney:
             default: true
             description: Allows players to see their money.
+          economy.command.seemoney:
+            default: op
+            description: Allows player to see money of other player.
           economy.command.cash:
             default: true
             description: Allows players to make cash.
