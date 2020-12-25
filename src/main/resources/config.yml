@@ -3,9 +3,9 @@ default: 1000
 messages:
   prefix: "[Economy]"
 
-  givedmoney: ""
-  settedmoney: ""
-  takedmoney: ""
+  givedmoney: "%issuer%가 당신에게 %amount%만큼의 돈을 지급했습니다."
+  settedmoney: "%issuer%가 당신의 돈을 %amount%%unit%으로 세팅했습니다."
+  takedmoney: "%issuer%가 당신에게서 %amount%%unit%만큼의 돈을 수거했습니다."
 
   commands:
     mymoney: "나의 돈: %amount%%unit%"
