@@ -22,15 +22,28 @@ class Economy : JavaPlugin() {
 
     override fun onDisable() {
         saveConfig()
+        EconomyManager.save()
     }
 
     private fun registerCommands() {
         getCommand("mymoney")?.setExecutor(MyMoneyCommand())
-        getCommand("seemoney")?.setExecutor(SeeMoneyCommand())
+        getCommand("seemoney")?.apply {
+            setExecutor(SeeMoneyCommand())
+            tabCompleter = SeeMoneyTabCompleter()
+        }
         getCommand("cash")?.setExecutor(CashCommand())
-        getCommand("setmoney")?.setExecutor(SetMoneyCommand())
-        getCommand("givemoney")?.setExecutor(GiveMoneyCommand())
-        getCommand("takemoney")?.setExecutor(TakeMoneyCommand())
+        getCommand("setmoney")?.apply {
+            setExecutor(SetMoneyCommand())
+            tabCompleter = SetMoneyTabCompleter()
+        }
+        getCommand("givemoney")?.apply {
+            setExecutor(GiveMoneyCommand())
+            tabCompleter = GiveMoneyTabCompleter()
+        }
+        getCommand("takemoney")?.apply {
+            setExecutor(TakeMoneyCommand())
+            tabCompleter = TakeMoneyTabCompleter()
+        }
     }
 
     fun prefix() = config.getString("messages.prefix") ?: "[Economy]"

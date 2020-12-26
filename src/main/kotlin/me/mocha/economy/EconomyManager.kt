@@ -99,4 +99,7 @@ object EconomyManager {
 
     fun defaultMoney() = plugin.config.getInt("default")
     fun unit() = plugin.config.getString("unit") ?: "$"
+    fun save() {
+        provider.save()
+    }
 }
