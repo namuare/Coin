@@ -4,60 +4,54 @@ import me.mocha.economy.exception.NoAccountException
 import me.mocha.economy.plugin
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
-import org.bukkit.entity.Player
 import java.io.File
+import java.util.*
 
 class YamlProvider : Provider {
     private val moneyFile = File(plugin.dataFolder, "money.yml")
     private val money: FileConfiguration = YamlConfiguration.loadConfiguration(moneyFile)
 
-    override fun hasAccount(player: Player): Boolean {
-        val uid = player.uniqueId.toString()
-        return money.contains(uid)
+    override fun hasAccount(uuid: UUID): Boolean {
+        return money.contains(uuid.toString())
     }
 
-    override fun createAccount(player: Player, default: Int): Boolean {
-        val uid = player.uniqueId.toString()
-        if (!hasAccount(player)) {
-            money[uid] = default
+    override fun createAccount(uuid: UUID, default: Int): Boolean {
+        if (!hasAccount(uuid)) {
+            money[uuid.toString()] = default
             return true
         }
         return false
     }
 
-    override fun getMoney(player: Player): Int {
-        if (hasAccount(player)) {
-            val uid = player.uniqueId.toString()
-            return money.getInt(uid)
+    override fun getMoney(uuid: UUID): Int {
+        if (hasAccount(uuid)) {
+            return money.getInt(uuid.toString())
         } else {
-            throw NoAccountException(player)
+            throw NoAccountException(uuid)
         }
     }
 
-    override fun setMoney(player: Player, amount: Int) {
-        if (hasAccount(player)) {
-            val uid = player.uniqueId.toString()
-            money[uid] = amount
+    override fun setMoney(uuid: UUID, amount: Int) {
+        if (hasAccount(uuid)) {
+            money[uuid.toString()] = amount
         } else {
-            throw NoAccountException(player)
+            throw NoAccountException(uuid)
         }
     }
 
-    override fun addMoney(player: Player, amount: Int) {
-        if (hasAccount(player)) {
-            val uid = player.uniqueId.toString()
-            money[uid] = money.getInt(uid) + amount
+    override fun addMoney(uuid: UUID, amount: Int) {
+        if (hasAccount(uuid)) {
+            money[uuid.toString()] = getMoney(uuid) + amount
         } else {
-            throw NoAccountException(player)
+            throw NoAccountException(uuid)
         }
     }
 
-    override fun reduceMoney(player: Player, amount: Int) {
-        if (hasAccount(player)) {
-            val uid = player.uniqueId.toString()
-            money[uid] = money.getInt(uid) - amount
+    override fun reduceMoney(uuid: UUID, amount: Int) {
+        if (hasAccount(uuid)) {
+            money[uuid.toString()] = getMoney(uuid) - amount
         } else {
-            throw NoAccountException(player)
+            throw NoAccountException(uuid)
         }
     }
 

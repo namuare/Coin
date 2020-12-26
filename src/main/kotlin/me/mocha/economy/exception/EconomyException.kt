@@ -2,7 +2,6 @@ package me.mocha.economy.exception
 
 import java.lang.RuntimeException
 
-open class EconomyException : RuntimeException {
-    constructor() : super()
-    constructor(message: String) : super(message)
+open class EconomyException(message: String) : RuntimeException(message) {
+    open val messagePath: String = "errors.unknown"
 }

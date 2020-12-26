@@ -20,11 +20,13 @@ class SetMoneyCommand : CommandExecutor {
         }
 
         try {
-            plugin.server.getPlayerExact(args[0])?.let { player ->
-                EconomyManager.setMoney(player, amount)
-                sender.sendMessage(plugin.getMessage("setmoney", "target" to player.displayName, "amount" to amount, "unit" to EconomyManager.unit()))
+            plugin.server.getPlayerUniqueId(args[0])?.let { uuid ->
+                val unit = EconomyManager.unit()
+                EconomyManager.setMoney(uuid, amount)
+                sender.sendMessage(plugin.getMessage("commands.setmoney", "target" to args[0], "amount" to amount, "unit" to unit))
+                plugin.server.getPlayer(uuid)?.sendMessage(plugin.getMessage("settedmoney", "issuer" to sender.name, "amount" to amount))
             } ?: run {
-                sender.sendMessage(plugin.getMessage("noaccount", "player" to args[0]))
+                sender.sendMessage(plugin.getMessage("errors.noaccount", "player" to args[0]))
             }
         } catch (e: Exception) {
             if (e.message?.startsWith(plugin.prefix()) == true) {

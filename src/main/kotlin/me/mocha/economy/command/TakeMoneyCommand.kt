@@ -20,11 +20,13 @@ class TakeMoneyCommand : CommandExecutor {
         }
 
         try {
-            plugin.server.getPlayerExact(args[0])?.let { player ->
-                EconomyManager.reduceMoney(player, amount)
-                sender.sendMessage(plugin.getMessage("takemoney", "target" to player.displayName, "amount" to amount, "unit" to EconomyManager.unit()))
+            plugin.server.getPlayerUniqueId(args[0])?.let { uuid ->
+                val unit = EconomyManager.unit()
+                EconomyManager.reduceMoney(uuid, amount)
+                sender.sendMessage(plugin.getMessage("commands.takemoney", "target" to args[0], "amount" to amount, "unit" to unit))
+                plugin.server.getPlayer(uuid)?.sendMessage(plugin.getMessage("takedmoney", "issuer" to sender.name, "amount" to amount))
             } ?: run {
-                sender.sendMessage(plugin.getMessage("noaccount", "player" to args[0]))
+                sender.sendMessage(plugin.getMessage("errors.noaccount", "player" to args[0]))
             }
         } catch (e: Exception) {
             if (e.message?.startsWith(plugin.prefix()) == true) {

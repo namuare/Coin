@@ -1,7 +1,7 @@
 package me.mocha.economy.event.money
 
 import me.mocha.economy.event.EconomyEvent
-import org.bukkit.entity.Player
+import java.util.*
 
-class MoneyChangedEvent(val player: Player, val money: Int) : EconomyEvent() {
+class MoneyChangedEvent(val playerId: UUID, val money: Int) : EconomyEvent() {
 }

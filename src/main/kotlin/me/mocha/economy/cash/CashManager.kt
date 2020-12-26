@@ -1,18 +1,18 @@
 package me.mocha.economy.cash
 
 import me.mocha.economy.EconomyManager
+import me.mocha.economy.exception.MoneyBelowZeroException
 import me.mocha.economy.plugin
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import java.lang.Exception
-import java.lang.IllegalArgumentException
 import java.util.*
 
 object CashManager {
 
-    @Throws(IllegalArgumentException::class)
+    @Throws(MoneyBelowZeroException::class)
     fun publish(amount: Int): ItemStack {
-        if (amount <= 0) throw IllegalArgumentException(plugin.getMessage("errors.zeromoney"))
+        if (amount <= 0) throw MoneyBelowZeroException()
 
         return ItemStack(Material.PAPER, 1).apply {
             itemMeta = itemMeta.apply {

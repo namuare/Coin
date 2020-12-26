@@ -1,10 +1,10 @@
 package me.mocha.economy.event.money
 
 import me.mocha.economy.event.EconomyEvent
-import org.bukkit.entity.Player
 import org.bukkit.event.Cancellable
+import java.util.*
 
-class ReduceMoneyEvent(val player: Player, var amount: Int) : EconomyEvent(), Cancellable {
+class ReduceMoneyEvent(val playerId: UUID, var amount: Int) : EconomyEvent(), Cancellable {
     private var cancelled = false
 
     override fun isCancelled() = cancelled

@@ -1,8 +1,12 @@
 package me.mocha.economy.exception
 
-import me.mocha.economy.plugin
 import org.bukkit.entity.Player
+import java.util.*
 
-class NotEnoughMoneyException(player: Player, need: Int) :
-    EconomyException(plugin.getMessage("errors.noaccount", "player" to player.name, "need" to need)) {
+class NotEnoughMoneyException : EconomyException {
+    override val messagePath: String = "errors.notenough"
+
+    constructor(message: String) : super(message)
+    constructor(playerId: UUID) : this("there is not enough money of uuid $playerId")
+    constructor(player: Player) : this(player.uniqueId)
 }

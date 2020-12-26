@@ -2,6 +2,7 @@ package me.mocha.economy.command
 
 import me.mocha.economy.EconomyManager
 import me.mocha.economy.cash.CashManager
+import me.mocha.economy.exception.EconomyException
 import me.mocha.economy.plugin
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -21,16 +22,16 @@ class CashCommand : CommandExecutor {
         try {
             val amount = args[0].toInt()
             val cash = CashManager.publish(amount)
+            val unit = EconomyManager.unit()
+
             EconomyManager.reduceMoney(sender, amount)
             sender.inventory.addItem(cash)
-            sender.sendMessage(plugin.getMessage("cash.published", "money" to amount, "unit" to EconomyManager.unit()))
+            sender.sendMessage(plugin.getMessage("cash.published", "money" to amount, "unit" to unit))
+        } catch (e: EconomyException) {
+            sender.sendMessage(plugin.getMessage(e.messagePath))
         } catch (e: Exception) {
-            if (e.message?.startsWith(plugin.prefix()) == true) {
-                sender.sendMessage(e.message!!)
-            } else {
-                sender.sendMessage(plugin.getMessage("errors.unknown"))
-                e.printStackTrace()
-            }
+            sender.sendMessage(plugin.getMessage("errors.unknown"))
+            e.printStackTrace()
         }
         return true
     }

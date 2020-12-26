@@ -5,74 +5,98 @@ import me.mocha.economy.event.money.AddMoneyEvent
 import me.mocha.economy.event.money.MoneyChangedEvent
 import me.mocha.economy.event.money.ReduceMoneyEvent
 import me.mocha.economy.event.money.SetMoneyEvent
-import me.mocha.economy.exception.EconomyException
+import me.mocha.economy.exception.MoneyBelowZeroException
 import me.mocha.economy.exception.NoAccountException
 import me.mocha.economy.exception.NotEnoughMoneyException
 import me.mocha.economy.provider.Provider
 import org.bukkit.entity.Player
+import java.util.*
 
 object EconomyManager {
     lateinit var provider: Provider
 
-    fun hasAccount(player: Player) = provider.hasAccount(player)
+    fun hasAccount(uuid: UUID): Boolean {
+        return provider.hasAccount(uuid)
+    }
+
+    fun hasAccount(player: Player): Boolean {
+        return hasAccount(player.uniqueId)
+    }
 
     fun createAccount(player: Player, default: Int = defaultMoney()): Boolean {
         if (!hasAccount(player)) {
             CreateAccountEvent(player, default).callEvent()
-            provider.createAccount(player, default)
+            provider.createAccount(player.uniqueId, default)
             return true
         }
         return false
     }
 
     @Throws(NoAccountException::class)
+    fun getMoney(uuid: UUID): Int {
+        return provider.getMoney(uuid)
+    }
+
+    @Throws(NoAccountException::class)
     fun getMoney(player: Player): Int {
-        return provider.getMoney(player)
+        return getMoney(player.uniqueId)
     }
 
-    @Throws(EconomyException::class, NoAccountException::class)
+    @Throws(MoneyBelowZeroException::class, NoAccountException::class)
+    fun setMoney(uuid: UUID, amount: Int) {
+        if (amount <= 0) throw MoneyBelowZeroException()
+
+        val event = SetMoneyEvent(uuid, amount)
+        event.callEvent()
+
+        if (!event.isCancelled) {
+            provider.setMoney(event.playerId, event.amount)
+            MoneyChangedEvent(event.playerId, getMoney(event.playerId)).callEvent()
+        }
+    }
+
+    @Throws(MoneyBelowZeroException::class, NoAccountException::class)
     fun setMoney(player: Player, amount: Int) {
-        if (amount <= 0) throw IllegalArgumentException(plugin.getMessage("errors.zeromoney"))
+        setMoney(player.uniqueId, amount)
+    }
 
-        val event = SetMoneyEvent(player, amount)
+    @Throws(MoneyBelowZeroException::class, NoAccountException::class)
+    fun addMoney(uuid:UUID, amount: Int) {
+        if (amount <= 0) throw MoneyBelowZeroException()
+
+        val event = AddMoneyEvent(uuid, amount)
         event.callEvent()
 
         if (!event.isCancelled) {
-            provider.setMoney(event.player, event.amount)
-            MoneyChangedEvent(event.player, getMoney(event.player)).callEvent()
+            provider.addMoney(event.playerId, event.amount)
+            MoneyChangedEvent(event.playerId, getMoney(event.playerId)).callEvent()
         }
     }
 
-    @Throws(IllegalArgumentException::class, NoAccountException::class)
+    @Throws(MoneyBelowZeroException::class, NoAccountException::class)
     fun addMoney(player: Player, amount: Int) {
-        if (amount <= 0) throw IllegalArgumentException(plugin.getMessage("errors.zeromoney"))
+        addMoney(player.uniqueId, amount)
+    }
 
-        val event = AddMoneyEvent(player, amount)
+    @Throws(MoneyBelowZeroException::class, NotEnoughMoneyException::class, NoAccountException::class)
+    fun reduceMoney(uuid: UUID, amount: Int) {
+        if (amount <= 0) throw MoneyBelowZeroException()
+        val event = ReduceMoneyEvent(uuid, amount)
         event.callEvent()
 
+        if (getMoney(uuid) - event.amount < 0) throw NotEnoughMoneyException(uuid)
+
         if (!event.isCancelled) {
-            provider.addMoney(event.player, event.amount)
-            MoneyChangedEvent(event.player, getMoney(event.player)).callEvent()
+            provider.reduceMoney(event.playerId, event.amount)
+            AddMoneyEvent(event.playerId, getMoney(event.playerId)).callEvent()
         }
     }
 
-    @Throws(IllegalArgumentException::class, NoAccountException::class)
+    @Throws(MoneyBelowZeroException::class, NotEnoughMoneyException::class, NoAccountException::class)
     fun reduceMoney(player: Player, amount: Int) {
-        if (amount <= 0) throw IllegalArgumentException(plugin.getMessage("errors.zeromoney"))
-
-        if (getMoney(player) - amount < 0) throw NotEnoughMoneyException(player, amount - getMoney(player))
-
-        val event = ReduceMoneyEvent(player, amount)
-        event.callEvent()
-
-        if (!event.isCancelled) {
-            provider.reduceMoney(event.player, event.amount)
-            AddMoneyEvent(event.player, getMoney(event.player)).callEvent()
-        }
+        reduceMoney(player.uniqueId, amount)
     }
-
 
     fun defaultMoney() = plugin.config.getInt("default")
     fun unit() = plugin.config.getString("unit") ?: "$"
-
 }

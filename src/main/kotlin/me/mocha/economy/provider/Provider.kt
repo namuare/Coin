@@ -1,12 +1,14 @@
 package me.mocha.economy.provider
-import org.bukkit.entity.Player
+import java.util.*
 
 interface Provider {
-    fun hasAccount(player: Player): Boolean
-    fun createAccount(player: Player, default: Int): Boolean
-    fun getMoney(player: Player): Int
-    fun setMoney(player: Player, amount: Int)
-    fun addMoney(player: Player, amount: Int)
-    fun reduceMoney(player: Player, amount: Int)
+    fun hasAccount(uuid: UUID): Boolean
+    fun createAccount(uuid: UUID, default: Int): Boolean
+
+    fun getMoney(uuid: UUID): Int
+    fun setMoney(uuid: UUID, amount: Int)
+    fun addMoney(uuid: UUID, amount: Int)
+    fun reduceMoney(uuid: UUID, amount: Int)
+
     fun save()
 }
