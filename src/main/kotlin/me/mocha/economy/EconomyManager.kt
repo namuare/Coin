@@ -88,7 +88,7 @@ object EconomyManager {
 
         if (!event.isCancelled) {
             provider.reduceMoney(event.playerId, event.amount)
-            AddMoneyEvent(event.playerId, getMoney(event.playerId)).callEvent()
+            MoneyChangedEvent(event.playerId, getMoney(event.playerId)).callEvent()
         }
     }
 
