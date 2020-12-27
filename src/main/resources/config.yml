@@ -1,4 +1,5 @@
 default: 1000
+unit: "$"
 
 messages:
   prefix: "[Economy]"
