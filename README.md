@@ -1,2 +1,2 @@
-# EconomySystem
-economy system for papermc
+# Coin
+coin mod for minecraft 1.16.4
