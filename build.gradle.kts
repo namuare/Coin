@@ -19,7 +19,7 @@ apply {
     plugin("net.minecraftforge.gradle")
 }
 
-version = "1.0"
+version = "1.1"
 group = "me.mocha.forgemod"
 
 repositories {
@@ -64,5 +64,11 @@ sourceSets {
         resources {
             srcDir("src/generated/resources")
         }
+    }
+}
+
+tasks.compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }
